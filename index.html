@@ -5,6 +5,7 @@
         <meta name="description" content="Сервис по по определению движка сайта по url">
         <meta name="keywords" content="Сервис, Определение движка сайта, Тестовое задание .WRK">
         <meta name="author" content="Владислав Годунов">
+        <meta name="generator" content="html/css/js">
         <title>"Сервис по по определению движка сайта по url</title>
         <link rel="icon" href="">
         <link rel="icon" type="image/png" sizes="32x32" href="">
@@ -12,6 +13,18 @@
     </head>
 
     <body>
-
+        <section class="define">
+            <h1 class="define__title">Сервис для определения движка сайта</h1>
+            <label class="define__url"> URL сайта:
+                <input class="define__input" type="url" placeholder="Введите полный URL" required></input>
+            </label>
+            <div class="define__buttons">
+                <button class="define__submit" type="submit">Определить движок</button>
+                <button class="define__reset" type="reset">Очистить поле</button>
+            </div>
+            <span class="define__info"></span>
+            <p></p>
+        </section>
+    <script src="./script.js"></script> 
     </body>
 </html>

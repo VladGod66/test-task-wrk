@@ -1,0 +1,18 @@
+.define {
+    display: flex;
+    flex-direction: column;
+    width: 33%;
+    margin: 0 auto;
+}
+
+.define__url {
+    margin-bottom: 20px;
+}
+
+.define__buttons {
+    margin-bottom: 20px;
+}
+
+.define__submit, .define__reset:hover {
+    cursor: pointer;
+}
