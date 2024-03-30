@@ -22,7 +22,7 @@ const checkDOM = (doc) => {
 //Функция проверки поиска ключевых слов в файле robots.txt сайта
 const checkRobots = (docTxt) => check(docTxt);
 
-//Функция поиска в document ключевых слов
+//Функция поиска ключевых слов
 const check = (docs) => {
     const string = getStringForDoc(docs);
     if (string.indexOf('bitrix' ) != -1) {info.innerHTML = 'Сайт работает на bitrix'; return}
