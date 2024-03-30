@@ -7,40 +7,60 @@ const reset = document.querySelector('.define__reset');
 //Находим место вывода результата запроса
 const info = document.querySelector('.define__info');
 
+
 //Функция преобразования в строку содержимого страницы
 const getStringForDoc = (doc) => {
     return [ doc.head.innerHTML, doc.body.innerHTML ].map(str => str.toLowerCase().trim()).join(" ");
   };
 
-//Функция проверки наличия и контента метатега generator, а также поиска ключевых слов при отсутствии метатега
-const checkCms = (doc) => {
+//Функция проверки наличия в DOM метатега generator, а также поиска ключевых слов в DOM при отсутствии метатега на сайте
+const checkDOM = (doc) => {
     const metaGenerator = doc.querySelector('meta[name="generator"]');
-    if (metaGenerator && metaGenerator.getAttribute('content').includes('WordPress')) {
-        info.innerHTML = `Сайт ${urlInput.value} работает на CMS WordPress`;
-    } else if (metaGenerator == null) {
-        info.innerHTML = `Не существует метатега о генераторе страницы у сайта ${urlInput.value}`;
-        const string = getStringForDoc(doc);
-        if (string.indexOf('bitrix' ) != -1) {info.innerHTML = 'Сайт на bitrix'; return}
-        if (string.indexOf('wordpress' || 'wp') != -1) {info.innerHTML = 'Сайт на wordpress'; return}
-        if (string.indexOf('joomla') != -1) {info.innerHTML = 'Сайт на joomla'; return}
-        if (string.indexOf('wix') != -1) {info.innerHTML = 'Сайт на wix'; return}
-        if (string.indexOf('ucoz') != -1) {info.innerHTML = 'Сайт на uCoz'; return}
-        info.innerHTML = 'Не обнаружено следов CMS или конструкторов';
-    } else {
-        info.innerHTML = `Сайт ${urlInput.value} работает на: ${metaGenerator.getAttribute('content')}`;
+    if (metaGenerator) {info.innerHTML = `Сайт ${urlInput.value} работает на ${metaGenerator.getAttribute('content')}`; return} 
+    check(doc);
+}
+//Функция проверки поиска ключевых слов в файле robots.txt сайта
+const checkRobots = (docTxt) => check(docTxt);
 
-    }
-  }
+//Функция поиска в document ключевых слов
+const check = (docs) => {
+    const string = getStringForDoc(docs);
+    if (string.indexOf('bitrix' ) != -1) {info.innerHTML = 'Сайт работает на bitrix'; return}
+    if (string.indexOf('wordpress' || 'wp') != -1) {info.innerHTML = 'Сайт работает  на wordpress'; return}
+    if (string.indexOf('joomla') != -1) {info.innerHTML = 'Сайт работает на joomla'; return}
+    if (string.indexOf('wix') != -1) {info.innerHTML = 'Сайт работает на wix'; return}
+    if (string.indexOf('ucoz') != -1) {info.innerHTML = 'Сайт работает на uCoz'; return}
+    if (string.indexOf('tilda') != -1) {info.innerHTML = 'Сайт работает на tilda'; return}
+    info.innerHTML = `На сайте ${urlInput.value} не обнаружено следов CMS или конструкторов`;
+}
 
 //Функция запроса, распарса и поиска инфы о движке страницы заданного сайта
 const requestDOM = (url) => {
+    console.log('//' + url);
   if (url != '') {
-  fetch(url)
+  //Запрос DOM загрузочной страницы сайта
+  fetch('//' + url)
     .then(response => response.text())
     .then(html => {
       const parser = new DOMParser();
       const doc = parser.parseFromString(html, 'text/html');
-      checkCms(doc);
+      console.log(doc);
+      checkDOM(doc);
+      //Запрос файла robots.txt сайта
+      fetch('//' + url + '/robots.txt')
+        .then(response => response.text())
+        .then(txt => {
+            const parserTxt = new DOMParser();
+            const docTxt = parserTxt.parseFromString(txt, 'text/html');
+            if (getStringForDoc(docTxt).indexOf('не найдено' || 'not found') != -1) return;
+            console.log(docTxt);
+            checkRobots(docTxt);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            info.innerHTML = `Файла ${urlInput.value} не существует`;
+        });
+        
     })
     .catch(error => {
         console.error('Error:', error);
