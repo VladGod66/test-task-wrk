@@ -3,6 +3,7 @@
     flex-direction: column;
     width: 40%;
     margin: 0 auto;
+    margin-top: 50px;
 }
 
 .define__container {
@@ -16,4 +17,9 @@
 
 .define__submit, .define__reset:hover {
     cursor: pointer;
+}
+
+.define__info {
+    color: #ff0000;
+    margin: 0 auto;
 }
