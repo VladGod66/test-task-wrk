@@ -1,15 +1,16 @@
 .define {
     display: flex;
     flex-direction: column;
-    width: 33%;
+    width: 40%;
     margin: 0 auto;
 }
 
-.define__url {
-    margin-bottom: 20px;
+.define__container {
+    margin: 0 auto;
 }
 
 .define__buttons {
+    margin-top: 20px;
     margin-bottom: 20px;
 }
 

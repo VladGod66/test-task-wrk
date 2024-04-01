@@ -25,12 +25,12 @@ const checkRobots = (docTxt) => check(docTxt);
 //Функция поиска ключевых слов
 const check = (docs) => {
     const string = getStringForDoc(docs);
-    if (string.indexOf('bitrix' ) != -1) {info.innerHTML = 'Сайт работает на bitrix'; return}
-    if (string.indexOf('wordpress' || 'wp') != -1) {info.innerHTML = 'Сайт работает  на wordpress'; return}
-    if (string.indexOf('joomla') != -1) {info.innerHTML = 'Сайт работает на joomla'; return}
-    if (string.indexOf('wix') != -1) {info.innerHTML = 'Сайт работает на wix'; return}
-    if (string.indexOf('ucoz') != -1) {info.innerHTML = 'Сайт работает на uCoz'; return}
-    if (string.indexOf('tilda') != -1) {info.innerHTML = 'Сайт работает на tilda'; return}
+    if (string.indexOf('bitrix' ) != -1) {info.innerHTML = `Сайт ${urlInput.value} работает на bitrix`; return}
+    if (string.indexOf('wordpress' || 'wp') != -1) {info.innerHTML = `Сайт ${urlInput.value} работает  на wordpress`; return}
+    if (string.indexOf('joomla') != -1) {info.innerHTML = `Сайт ${urlInput.value} работает на joomla`; return}
+    if (string.indexOf('wix') != -1) {info.innerHTML = `Сайт ${urlInput.value} работает на wix`; return}
+    if (string.indexOf('ucoz') != -1) {info.innerHTML = `Сайт ${urlInput.value} работает на uCoz`; return}
+    if (string.indexOf('tilda') != -1) {info.innerHTML = `Сайт ${urlInput.value} работает на tilda`; return}
     info.innerHTML = `На сайте ${urlInput.value} не обнаружено следов CMS или конструкторов`;
 }
 
@@ -78,5 +78,19 @@ const resetInput = () => {
 //Подписываемся на запрос данных с сервера сайта по событию click на кнопку Определить движок
 define.addEventListener('click', () => requestDOM(urlInput.value));
 
-//Подписываемся на очистку поля url по событию click на кнопку Очистить поле
+//Подписываемся на очистку полей по событию click на кнопку Очистить поле
 reset.addEventListener('click', () => resetInput());
+
+//Подписываемся на запрос данных с сервера сайта по нажатию клавиши Enter
+document.addEventListener('keydown', (event) => {
+  if(event.key === 'Enter') {
+    requestDOM(urlInput.value);
+  }
+});
+
+//Подписываемся на очистку полей по нажатию клавиши Esc
+document.addEventListener('keydown', (event) => {
+  if(event.key === 'Escape') {
+    resetInput();
+  }
+});
